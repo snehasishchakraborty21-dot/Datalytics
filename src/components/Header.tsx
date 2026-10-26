@@ -98,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
             <button
               type="button"
-              onClick={onNavigateConsulting}
+              onClick={() => onNavigateConsulting()}
               className={`transition-colors whitespace-nowrap cursor-pointer py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0A3D36] rounded-xs ${
                 currentRoute === 'consulting'
                   ? 'text-[#0A3D36] font-semibold border-b-2 border-[#0A3D36]'

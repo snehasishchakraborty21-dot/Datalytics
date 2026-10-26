@@ -74,7 +74,13 @@ export const Footer: React.FC<FooterProps> = ({
               <li>
                 <button
                   type="button"
-                  onClick={onNavigateConsulting || onServicesClick}
+                  onClick={() => {
+                    if (onNavigateConsulting) {
+                      onNavigateConsulting();
+                    } else {
+                      onServicesClick();
+                    }
+                  }}
                   className="hover:text-[#0A3D36] transition-colors cursor-pointer text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0A3D36] rounded-xs"
                 >
                   Consulting Services

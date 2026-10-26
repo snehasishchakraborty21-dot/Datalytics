@@ -732,7 +732,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({
             <div>
               <button
                 type="button"
-                onClick={onNavigateConsulting}
+                onClick={() => onNavigateConsulting()}
                 className="inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-[#0A3D36] hover:text-[#072C27] hover:underline cursor-pointer py-1.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0A3D36] rounded-xs group"
               >
                 <span>Consulting Services</span>

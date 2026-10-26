@@ -358,7 +358,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({
 
               <button
                 type="button"
-                onClick={onNavigateConsulting}
+                onClick={() => onNavigateConsulting()}
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-medium text-[#0A3D36] bg-[#EAF5F0] hover:bg-[#D8ECE3] active:bg-[#C8E4D8] rounded-sm transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0A3D36] focus-visible:ring-offset-2"
               >
                 <span>Discuss a Research Project</span>

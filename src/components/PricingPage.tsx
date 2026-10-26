@@ -389,7 +389,7 @@ export const PricingPage: React.FC<PricingPageProps> = ({
               <div>
                 <button
                   type="button"
-                  onClick={onNavigateConsulting}
+                  onClick={() => onNavigateConsulting()}
                   className="inline-flex items-center gap-1.5 text-xs md:text-sm font-semibold text-[#0A3D36] hover:text-[#072C27] hover:underline cursor-pointer py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0A3D36] rounded-xs"
                 >
                   <span>Explore Consulting</span>

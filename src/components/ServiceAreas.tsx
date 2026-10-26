@@ -88,7 +88,7 @@ export const ServiceAreas: React.FC<ServiceAreasProps> = ({
             <div className="md:col-span-3 md:text-right pt-1 md:pt-0">
               <button
                 type="button"
-                onClick={onConsultingEnquiry}
+                onClick={() => onConsultingEnquiry()}
                 className="inline-flex items-center gap-2 text-sm font-semibold text-[#0A3D36] hover:text-[#072C27] hover:underline cursor-pointer group-hover:translate-x-0.5 transition-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0A3D36] rounded-xs"
               >
                 <span>Discuss Your Requirements</span>

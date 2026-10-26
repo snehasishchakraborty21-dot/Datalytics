@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ExploreDatasets } from './components/ExploreDatasets';
@@ -405,6 +405,18 @@ export default function App() {
     return null;
   }, [activeDatasetId, adminDatasets]);
 
+  const consultingScrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clean up any pending consulting scroll timer on unmount
+  useEffect(() => {
+    return () => {
+      if (consultingScrollTimerRef.current) {
+        clearTimeout(consultingScrollTimerRef.current);
+        consultingScrollTimerRef.current = null;
+      }
+    };
+  }, []);
+
   // Handle browser back and forward button events
   useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
@@ -469,8 +481,13 @@ export default function App() {
         setCurrentRoute('data-storage');
         setActiveDatasetId(null);
       } else if (parsed.route === 'consulting' || event.state?.page === 'consulting') {
+        if (consultingScrollTimerRef.current) {
+          clearTimeout(consultingScrollTimerRef.current);
+          consultingScrollTimerRef.current = null;
+        }
         setCurrentRoute('consulting');
         setActiveDatasetId(null);
+        window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
       } else if (parsed.route === 'dataset-detail' && parsed.datasetId) {
         setActiveDatasetId(parsed.datasetId);
         setCurrentRoute('dataset-detail');
@@ -521,21 +538,35 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const navigateToConsulting = (scrollToForm = false) => {
+  const navigateToConsulting = (scrollToForm: boolean | unknown = false) => {
+    // Cancel any pending form-scroll timer when Consulting navigation occurs
+    if (consultingScrollTimerRef.current) {
+      clearTimeout(consultingScrollTimerRef.current);
+      consultingScrollTimerRef.current = null;
+    }
+
     setCurrentRoute('consulting');
     setActiveDatasetId(null);
     window.history.pushState({ page: 'consulting' }, '', '/consulting');
-    if (scrollToForm) {
-      setTimeout(() => {
+
+    // Strict condition: only explicit true should scroll to the enquiry form
+    if (scrollToForm === true) {
+      consultingScrollTimerRef.current = setTimeout(() => {
         const formEl = document.getElementById('consulting-enquiry-form');
         if (formEl) {
           const yOffset = -80;
           const y = formEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
           window.scrollTo({ top: y, behavior: 'smooth' });
         }
+        consultingScrollTimerRef.current = null;
       }, 100);
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      // Normal navigation: reset scroll position immediately to top without animation
+      // (Also applies when clicking Consulting while already on the Consulting page)
+      window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+      });
     }
   };
 
@@ -986,7 +1017,7 @@ export default function App() {
         currentRoute={currentRoute}
         onNavigateHome={navigateToHome}
         onNavigateDatasets={() => navigateToDatasets('', null, true)}
-        onNavigateConsulting={navigateToConsulting}
+        onNavigateConsulting={() => navigateToConsulting(false)}
         onNavigateStorage={navigateToStorage}
         onNavigatePricing={navigateToPricing}
         onNavigateAbout={navigateToAbout}
@@ -1050,7 +1081,7 @@ export default function App() {
             {/* Three Dedicated Service Areas */}
             <ServiceAreas
               onExploreDatasets={() => navigateToDatasets('', null, true)}
-              onConsultingEnquiry={navigateToConsulting}
+              onConsultingEnquiry={() => navigateToConsulting(true)}
               onStorageEnquiry={navigateToStorage}
             />
 
@@ -1093,7 +1124,7 @@ export default function App() {
           <PricingPage
             onNavigateHome={navigateToHome}
             onExploreDatasets={() => navigateToDatasets('', null, true)}
-            onNavigateConsulting={navigateToConsulting}
+            onNavigateConsulting={() => navigateToConsulting(false)}
             onNavigateStorage={navigateToStorage}
           />
         ) : currentRoute === 'datasets' || !activeDatasetId ? (
@@ -1122,7 +1153,7 @@ export default function App() {
       <Footer
         onOpenPreviewNotice={handleOpenPreviewNotice}
         onExploreDatasets={() => navigateToDatasets('', null, true)}
-        onNavigateConsulting={navigateToConsulting}
+        onNavigateConsulting={() => navigateToConsulting(false)}
         onNavigateStorage={navigateToStorage}
         onNavigatePricing={navigateToPricing}
         onNavigateAbout={navigateToAbout}
