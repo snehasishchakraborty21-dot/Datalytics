@@ -1,0 +1,6 @@
+{
+  "name": "Datalytics",
+  "description": "African data marketplace and intelligence platform for discovering datasets, commissioning research, and requesting data storage services.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

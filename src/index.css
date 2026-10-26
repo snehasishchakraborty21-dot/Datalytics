@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: "Newsreader", "Source Serif 4", Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-schoolbook: "Century Schoolbook", "TeX Gyre Schola", "New Century Schoolbook", "Century", Georgia, serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: #111827;
+    background-color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, .font-serif-headline {
+    font-family: var(--font-serif);
+    letter-spacing: -0.015em;
+  }
+}
+
+.font-editorial {
+  font-family: var(--font-serif);
+}
+
+.font-schoolbook {
+  font-family: var(--font-schoolbook);
+}
+
+/* Custom oceanic green colors */
+:root {
+  --color-oceanic-dark: #072F29;
+  --color-oceanic-primary: #0A3D36;
+  --color-oceanic-hover: #072C27;
+  --color-oceanic-muted: #1B574E;
+  --color-pale-mint: #F2F8F5;
+  --color-mint-border: #DDEBE5;
+}
+
+/* Accessible focus ring */
+*:focus-visible {
+  outline: 2px solid #0A3D36;
+  outline-offset: 2px;
+}
